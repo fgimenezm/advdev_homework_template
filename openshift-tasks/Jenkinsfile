@@ -128,9 +128,11 @@ podTemplate(
         sh "skopeo copy --src-tls-verify=false --dest-tls-verify=false --src-creds=openshift:${token} --dest-creds=admin:redhat docker://docker-registry.default.svc:5000/${GUID}-tasks-dev/tasks:${devTag} docker://nexus3-registry.gpte-hw-cicd.svc.cluster.local:5000/tasks:${devTag}"
 
         // Tag the built image with the production tag.
-        openshift.withCluster() {
-          openshift.withProject("${GUID}-tasks-prod") {
-            openshift.tag("${GUID}-tasks-dev/tasks:${devTag}", "${GUID}-tasks-dev/tasks:${prodTag}")
+        script {
+          openshift.withCluster() {
+            openshift.withProject("${GUID}-tasks-prod") {
+              openshift.tag("${GUID}-tasks-dev/tasks:${devTag}", "${GUID}-tasks-dev/tasks:${prodTag}")
+            }
           }
         }
       }
