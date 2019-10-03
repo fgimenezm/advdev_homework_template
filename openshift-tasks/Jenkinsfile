@@ -32,10 +32,10 @@ podTemplate(
       // Extract version from the pom.xml
       def version = getVersionFromPom("pom.xml")
 
-      // TBD Set the tag for the development image: version + build number
-      def devTag  = ""
+      // Set the tag for the development image: version + build number
+      def devTag  = "${version}-${BUILD_NUMBER}"
       // Set the tag for the production image: version
-      def prodTag = ""
+      def prodTag = "${version}"
 
       // Using Maven build the war file
       // Do not run tests in this step
@@ -46,19 +46,23 @@ podTemplate(
       }
 
       // TBD: The next two stages should run in parallel
+      stage('Run Test and Analysis'){
+        failFast true
+        parallel {
+          // Using Maven run the unit tests
+          stage('Unit Tests') {
+            echo "Running Unit Tests"
 
-      // Using Maven run the unit tests
-      stage('Unit Tests') {
-        echo "Running Unit Tests"
+            // TBD: Execute Unit Tests
+          }
 
-        // TBD: Execute Unit Tests
-      }
+          // Using Maven to call SonarQube for Code Analysis
+          stage('Code Analysis') {
+            echo "Running Code Analysis"
 
-      // Using Maven to call SonarQube for Code Analysis
-      stage('Code Analysis') {
-        echo "Running Code Analysis"
-
-        // TBD: Execute Sonarqube Tests
+            // TBD: Execute Sonarqube Tests
+          }
+        }
       }
 
       // Publish the built war file to Nexus
