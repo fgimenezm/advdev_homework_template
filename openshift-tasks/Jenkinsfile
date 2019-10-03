@@ -98,7 +98,7 @@ podTemplate(
               // Set image
               openshift.set("image", "dc/tasks", "tasks=docker-registry.default.svc:5000/${GUID}-tasks-dev/tasks:${devTag}")
               // Ser VERSION
-              openshift.set("env", "dc/tasks", "VERSION=${devTag} (tasks-dev)")
+              openshift.set("env", "dc/tasks", "VERSION=\"${devTag} (tasks-dev)\"")
               // Update CM
               openshift.selector("configmap", "tasks-config").delete()
               openshift.create("configmap", "tasks-config", "--from-file=./configuration/application-users.properties", "--from-file=./configuration/application-roles.properties")
