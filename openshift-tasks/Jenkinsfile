@@ -47,7 +47,6 @@ podTemplate(
 
       // TBD: The next two stages should run in parallel
       stage('Run Test and Analysis'){
-        failFast true
         parallel {
           // Using Maven run the unit tests
           stage('Unit Tests') {
