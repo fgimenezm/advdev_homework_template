@@ -30,7 +30,10 @@ podTemplate(
       // and not inside the scope of a stage - otherwise they would not
       // be accessible from other stages.
       // Extract version from the pom.xml
-      def version = getVersionFromPom("pom.xml")
+      //def version = getVersionFromPom("pom.xml")
+      // Got a non-specific error... trying this to see if that helps...
+      def pom = readMavenPom file: 'pom.xml'
+      def version = pom.version
 
       // Set the tag for the development image: version + build number
       def devTag  = "${version}-${BUILD_NUMBER}"
@@ -120,10 +123,11 @@ podTemplate(
   }
 }
 
+// Got a non-specific error... trying removing this to see if that helps...
 // Convenience Functions to read version from the pom.xml
 // Do not change anything below this line.
 // --------------------------------------------------------
-def getVersionFromPom(pom) {
-  def matcher = readFile(pom) =~ '<version>(.+)</version>'
-  matcher ? matcher[0][1] : null
-}
+//def getVersionFromPom(pom) {
+//  def matcher = readFile(pom) =~ '<version>(.+)</version>'
+//  matcher ? matcher[0][1] : null
+//}
