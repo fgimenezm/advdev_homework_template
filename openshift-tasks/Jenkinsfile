@@ -143,8 +143,7 @@ podTemplate(
       def activeApp = ""
 
       stage('Blue/Green Production Deployment') {
-        script {
-        // TBD: Determine which application is active
+        // Determine which application is active
         //      Set Image, Set VERSION
         //      Deploy into the other application
         //      Make sure the application is running and ready before proceeding
