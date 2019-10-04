@@ -29,6 +29,7 @@ oc -n ${GUID}-jenkins new-build -D $'FROM docker.io/openshift/jenkins-agent-mave
 # Create pipeline build config pointing to the ${REPO} with contextDir `openshift-tasks`
 oc -n ${GUID}-jenkins new-build --strategy=pipeline --context-dir=openshift-tasks \
     $REPO -e GUID=$GUID -e REPO=$REPO -e CLUSTER=$CLUSTER --name=tasks-pipeline
+oc -n ${GUID}-jenkins set triggers bc/tasks-pipeline --remove-all
 
 # Make sure that Jenkins is fully up and running before proceeding!
 while : ; do
